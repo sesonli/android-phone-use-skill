@@ -65,9 +65,21 @@ python3 install.py
 进入已安装的 skill 目录，准备依赖并检查运行环境：
 
 ```bash
+cd ~/.agents/skills/android-phone-use
 python3 scripts/run.py setup
 python3 scripts/run.py doctor
 ```
+
+Windows PowerShell 使用默认安装目录时：
+
+```powershell
+py -3.13 install.py
+Set-Location "$env:USERPROFILE\.agents\skills\android-phone-use"
+py -3.13 scripts/run.py setup
+py -3.13 scripts/run.py doctor
+```
+
+安装器需要从克隆的仓库目录运行。若使用了 `--destination`，后续进入该目标目录。升级时先把旧安装保存到 Codex skill 搜索目录之外的备份目录，再安装并验证新版本；安装器会拒绝覆盖已有 skill。
 
 Windows 将 `python3` 换成 `py -3.13`。WSL 默认转调 Windows；如果找不到 Windows Python，可设置 `PHONEUSE_WINDOWS_PYTHON`。纯 Linux 默认使用原生路线，也可以明确指定：
 
@@ -95,7 +107,7 @@ python3 scripts/run.py toolkit --serial DEVICE_SERIAL snapshot --output evidence
 
 ## 固定版本与验证
 
-版本 2.0.0 保留了 v2 的采集函数。默认使用 `conservative` 模式；对于已经确认有顺序且记录可区分的列表，可以使用 `stable` 模式。执行入口会检查冻结文件的哈希，依赖使用精确版本；如果已有依赖缓存与固定版本不同，安装会停止。
+版本 2.0.1 保留了已接受的 v2 采集函数，并修正了诊断命令检查依赖目录的位置。原始 v2.0.0 标签仍然保留。默认使用 `conservative` 模式；对于已经确认有顺序且记录可区分的列表，可以使用 `stable` 模式。执行入口会检查冻结文件的哈希，依赖使用精确版本；如果已有依赖缓存与固定版本不同，安装会停止。
 
 [来源与测试记录](skills/android-phone-use/references/provenance.md) 说明了此前 Android 设置列表的同记录对比，以及测试范围。这些结果不能直接代表其他应用的覆盖率和速度。
 
@@ -109,7 +121,7 @@ python3 scripts/run.py toolkit --serial DEVICE_SERIAL snapshot --output evidence
 
 [测试方法与证据范围](TESTING.md) 说明了干净安装测试、环境前提和暂不执行的微信测试计划。[干净安装 CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) 在 GitHub 提供的 Windows 和 Linux 新运行器上执行。绿色结果只代表列出的安装检查通过，不代表真机或应用兼容性通过。
 
-[首轮独立环境检查](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) 的三组任务已全部通过：Ubuntu/Python 3.10、Ubuntu/Python 3.13、Windows/Python 3.13。检查对应提交 `ad3c8cf`，安装的采集器仍为冻结的 v2.0.0 版本。
+[首轮独立环境检查](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) 的三组任务已全部通过：Ubuntu/Python 3.10、Ubuntu/Python 3.13、Windows/Python 3.13。检查对应原始 v2.0.0 包的提交 `ad3c8cf`；后续提交的检查结果见工作流历史。
 
 在仓库目录运行：
 
@@ -118,4 +130,4 @@ python3 -m unittest discover -s tests -v
 python3 skills/android-phone-use/scripts/run.py verify
 ```
 
-这些检查覆盖冻结文件被修改、保留已有安装、Windows 路线失败后禁止换用原生路线，以及原生路线拒绝 Windows ADB 的情况。检查不需要连接手机；具体应用的完整流程仍需要单独验证。
+17 项离线测试覆盖发布完整性与合成界面回放：中文及嵌套字段、PNG 原样保存、有序去重、裁切、记录上限、连续性失败证据、前台应用变化、稳定等待超时、列表不再变化时停止，以及诊断路径。测试替换了设备传输与时钟，不能代表真实手机时延或应用兼容性。另有干净安装测试，从公共源安装全新依赖并检查命令入口。

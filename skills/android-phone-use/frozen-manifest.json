@@ -1,17 +1,34 @@
 {
-  "version": "2.0.0",
-  "frozen_date": "2026-10-01",
+  "version": "2.0.1",
+  "frozen_date": "2026-10-02",
   "original_scanner_sha256": "53c3d2f04f0a1eb5a1ddf6b7ab1f13581dde82e00bed1d27ebdc520c0eed9b0e",
   "core_functions_unchanged": true,
   "files": {
     "SKILL.md": "9e73a4eef466e9b3cc391cd535086088b198ba78f3a9e18deeb5bce4acfa6794",
     "agents/openai.yaml": "9d4e85ca652b2dc8b871ec05bff2090e6c8d473f3e334ed38a31cdea460c8ec4",
-    "references/provenance.md": "12fe101349562f668d3c32170637190bb30f5d4171b74444483336b2018c58d5",
+    "references/provenance.md": "9814469e301aa53f5a43050d5f35a2c7d6ebdace79bfb5c15cf408bb2ba4c78a",
     "references/usage.md": "ef3faac8698a1f836e73ed531fa10bad6a0e5f23f7941e36920aa9f2a7f43a12",
-    "scripts/phoneuse.py": "48f3c7e386c74960bd3fa01e60be9e464ae698825d3ff8440f7e63599eb8ab5f",
+    "scripts/phoneuse.py": "805cca7417e6dbbf61b30bd22c4883e40a6afa939af76ca9c7f1b7158371ed7f",
     "scripts/requirements-lock.txt": "2e674577782921500c3c6d0557c9eedf844869bfd3c9e43981534fb62c8e0eea",
     "scripts/run.py": "be6629e13c3e47cb52b96e3dafa6d2f4fd8544ad2c567e2e0f53e71d8b28bea2",
     "scripts/runtime.py": "5955bb4b231aa034f0116cb23292366d9514888fc3e6df882bdaca9d85de7986",
     "scripts/u2cli.py": "3857cbca8ff857ac98ee8e4616d90b65aa19c55a31dc25b95705278ec4a8ea37"
-  }
+  },
+  "unchanged_function_names": [
+    "adb",
+    "bench",
+    "checked_device",
+    "contiguous_overlap",
+    "foreground_package",
+    "old_dump",
+    "parse_tree",
+    "scan",
+    "screenshot",
+    "service",
+    "snapshot",
+    "timed_dump",
+    "wait_stable",
+    "write_json"
+  ],
+  "diagnostic_patch": "toolkit doctor resolves the current runtime dependency directory"
 }

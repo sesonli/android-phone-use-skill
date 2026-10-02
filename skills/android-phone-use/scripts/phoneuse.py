@@ -405,8 +405,9 @@ def main() -> None:
     args = parser.parse_args()
     checked_device(args.serial)
     if args.command == "doctor":
+        from runtime import vendor_dir
         print(json.dumps({"serial": args.serial, "state": "device", "adb": str(ADB),
-                          "vendor_uiautomator2": (ROOT / "vendor" / "uiautomator2").is_dir()}))
+                          "vendor_uiautomator2": (vendor_dir() / "uiautomator2").is_dir()}))
     elif args.command == "snapshot":
         snapshot(args)
     elif args.command == "bench":

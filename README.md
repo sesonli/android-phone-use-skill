@@ -63,9 +63,21 @@ The default destination is the current user's `.agents/skills/android-phone-use`
 From the installed skill directory:
 
 ```bash
+cd ~/.agents/skills/android-phone-use
 python3 scripts/run.py setup
 python3 scripts/run.py doctor
 ```
+
+Windows PowerShell, using the default installation directory:
+
+```powershell
+py -3.13 install.py
+Set-Location "$env:USERPROFILE\.agents\skills\android-phone-use"
+py -3.13 scripts/run.py setup
+py -3.13 scripts/run.py doctor
+```
+
+Run the installer from the cloned repository. If you supplied `--destination`, enter that directory instead. For an upgrade, preserve the old installation in a backup directory outside Codex's skill search folders, then install and verify the new version. The installer intentionally refuses to overwrite an existing skill.
 
 Use `py -3.13` on Windows. On WSL, `auto` uses Windows execution. Set `PHONEUSE_WINDOWS_PYTHON` if Windows Python cannot be found. On pure Linux, `auto` uses native execution; `--runtime native` makes the selection explicit. Install Android platform-tools or configure `ANDROID_ADB_EXE` when ADB is unavailable.
 
@@ -82,7 +94,7 @@ Choose the current connected, authorized phone serial. Do not reuse a historical
 
 ## Frozen behavior and evidence
 
-Version 2.0.0 retains the v2 scanning functions. The general default remains conservative; stable mode is preferred for verified ordered lists with distinguishable records. The release manifest checks code and instructions before execution. Setup installs exact dependency versions and stops if an existing cache differs from the pins.
+Version 2.0.1 retains the accepted v2 scanning functions and fixes the diagnostic dependency-directory check. The original v2.0.0 tag remains available. The general default remains conservative; stable mode is preferred for verified ordered lists with distinguishable records. The release manifest checks code and instructions before execution. Setup installs exact dependency versions and stops if an existing cache differs from the pins.
 
 [Provenance](skills/android-phone-use/references/provenance.md) records the historical same-record Settings benchmark and its limits. The source package includes no private captures, device identifiers, pairing codes, or host credentials. Dependencies are installed at runtime instead of distributing platform-specific wheels.
 
@@ -94,11 +106,11 @@ Package code and instructions use MIT. uiautomator2, adbutils, and other depende
 
 See [testing and evidence boundaries](TESTING.md) for the clean-install test, prerequisites, and the deferred WeChat test plan. [Clean-install CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) runs on fresh GitHub-hosted Windows and Linux runners. A green run demonstrates the listed installation checks, not phone or app compatibility.
 
-[The first independent run](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) passed all three jobs: Ubuntu/Python 3.10, Ubuntu/Python 3.13, and Windows/Python 3.13. It tested commit `ad3c8cf`; the installed scanner remains the frozen v2.0.0 release.
+[The first independent run](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) passed all three jobs: Ubuntu/Python 3.10, Ubuntu/Python 3.13, and Windows/Python 3.13. It tested the original v2.0.0 package at commit `ad3c8cf`. See the workflow history for checks on subsequent commits.
 
 ```bash
 python3 -m unittest discover -s tests -v
 python3 skills/android-phone-use/scripts/run.py verify
 ```
 
-These checks cover frozen-file tampering, preserving an existing installed skill, refusing to substitute native execution for a failed Windows route, and rejecting Windows ADB in native mode. They do not require an attached phone. Device-specific acceptance remains a separate test.
+The 17 offline tests cover release integrity and synthetic UI replay: Unicode and nested records, PNG preservation, ordered deduplication, clipping, record limits, continuity failure evidence, foreground changes, stability timeouts, stopping at an unchanged list, and diagnostic paths. The tests replace device transport and time, so they do not establish actual device timing or app compatibility. The separate clean-install test obtains fresh public dependencies and checks the executable entrypoints.

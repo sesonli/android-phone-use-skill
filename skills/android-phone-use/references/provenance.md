@@ -1,6 +1,8 @@
 # Frozen release provenance
 
-Release: 2.0.0. Frozen on 2026-10-01 from the accepted v2 scanner.
+Release: 2.0.1. Frozen on 2026-10-02 from the accepted v2 scanner. Version 2.0.0 remains available as the original frozen tag.
+
+The 2.0.1 patch corrects `toolkit doctor` to inspect the current runtime dependency directory. The scanning and observation functions are unchanged. Offline tests replay synthetic XML frames through the real extraction, waiting, scrolling, and continuity logic, while replacing device transport and the clock. These tests are separate from live-phone evidence.
 
 The original scanner SHA-256 was `53c3d2f04f0a1eb5a1ddf6b7ab1f13581dde82e00bed1d27ebdc520c0eed9b0e`. The release adds portable ADB/dependency discovery and explicit Windows, WSL, and Linux entrypoints. Core observation, record extraction, quiet-interval waiting, foreground checks, scrolling, PNG capture, and deduplication functions are retained. No round-3 gesture or screenshot experiment is promoted into this release.
 

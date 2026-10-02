@@ -1,5 +1,13 @@
 # Testing and evidence boundaries / 测试方法与证据范围
 
+## Offline capture regression tests
+
+Run `python -m unittest discover -s tests -v`. The suite contains 17 cases: 13 capture cases plus four release checks. Two Linux-specific release checks are explicitly skipped on Windows.
+
+Synthetic Android XML frames pass through the real parser, scanner, stability wait, and file writers. The tests replace device transport and the clock. They assert exact ordered records, nested Unicode fields, preservation of extra raw records, viewport clipping, minimum page overlap, retained failure evidence, foreground-package guards, unchanged-list termination, unstable bounds rejection, PNG byte preservation, and the current diagnostic dependency path.
+
+The diagnostic regression failed before the old dependency path was corrected. The correction is in v2.0.1; all 14 functions other than the command entrypoint retain the accepted v2 function bodies, as recorded in the frozen manifest. Synthetic replay does not certify live UiAutomator behavior, app coverage, or physical phone performance.
+
 ## What a clean installation tests
 
 Run `python tests/clean_install.py` from the repository. Windows uses Python 3.13. Linux uses Python 3.10 or newer; WSL runs this test through Linux explicitly. Creating the temporary virtual environment requires ensurepip or an existing uv installation.

@@ -27,7 +27,7 @@ class ReleaseTests(unittest.TestCase):
             previous = runner.SKILL
             try:
                 runner.SKILL = copied
-                self.assertEqual(runner.verify_release()['version'], '2.0.0')
+                self.assertEqual(runner.verify_release()['version'], '2.0.1')
                 path = copied/'scripts'/'phoneuse.py'
                 path.write_bytes(path.read_bytes()+b'\n# changed\n')
                 with self.assertRaisesRegex(RuntimeError, 'integrity failed'):
@@ -41,7 +41,7 @@ class ReleaseTests(unittest.TestCase):
             command = [sys.executable, str(ROOT/'install.py'), '--destination', str(target)]
             first = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(first.returncode, 0, first.stderr)
-            self.assertEqual(json.loads(first.stdout)['version'], '2.0.0')
+            self.assertEqual(json.loads(first.stdout)['version'], '2.0.1')
             marker = target/'user-note.txt'
             marker.write_text('preserve my existing working state')
             second = subprocess.run(command, capture_output=True, text=True)
