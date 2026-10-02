@@ -1,26 +1,62 @@
 # Android Phone Use skill
 
-A frozen Codex skill for persistent Android UI reads and bounded list capture. It packages the accepted v2 scanner, stable-state waits, adjacent-page overlap checks, lossless PNG capture, and upstream uiautomator2 controls. Invoke it as `$android-phone-use`.
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-The sharing value is a reusable workflow and its acceptance method: collect several pages in one local operation, preserve raw evidence, and reject lost continuity. The executor and device APIs come from maintained upstream projects.
+A Codex skill for operating Android phones through USB or wireless ADB. It reads accessible UI labels and positions, exposes upstream uiautomator2 controls, and collects scrollable lists as structured records with PNG evidence. Invoke it as `$android-phone-use`.
+
+## What it does
+
+- Capture the current screen's UI tree and a lossless screenshot.
+- Use observed selectors or coordinates to operate the phone through uiautomator2.
+- Collect several list pages in one bounded local operation.
+- Wait for selected records and positions to settle, then check overlap between adjacent pages.
+- Save structured records and page evidence for inspection and comparison.
+
+The package freezes the accepted v2 scanner. It combines maintained [uiautomator2](https://github.com/openatx/uiautomator2) and [adbutils](https://github.com/openatx/adbutils) with a reusable capture workflow. Its sharing value is the integrated workflow and acceptance method. The toolkit itself does not call a language model.
+
+Example request after installation:
+
+> Use $android-phone-use to inspect the connected Android phone, capture its current screen, and collect the first 30 records from the visible list with screenshots.
+
+## Phone compatibility
+
+This is an **Android phone skill**. Computer operating-system support and phone operating-system support are separate.
+
+| Phone software | Scope of this release |
+|---|---|
+| Android, including Android-based manufacturer systems | Target platform. The phone must authorize ADB and allow the Android UiAutomator service to run. Each device and app still needs validation. |
+| Huawei software that retains Android compatibility | Conditional and untested. Use only if ADB and Android UiAutomator actually work on that build; the ability to install APKs alone is insufficient. |
+| HarmonyOS NEXT / native HarmonyOS | Unsupported. This package has no HarmonyOS HDC or native UI automation backend. |
+| iPhone / iOS | Unsupported. This package has no iOS automation backend. |
+
+The historical phone acceptance used **one OnePlus 8T running Android 13**, over wireless ADB, on a Settings application list. It does not establish coverage of every Android version, phone brand, or app. The release does not claim a tested minimum Android version.
+
+Enable debugging, authorize the selected host, and confirm the phone appears as `device` in `adb devices`. See [Android's ADB documentation](https://developer.android.com/tools/adb). UI capture depends on content exposed to Android UiAutomator; custom views and image-only content may need screenshot inspection. HarmonyOS uses a separate toolchain documented in [Huawei's HDC guide](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/hdc); this release does not implement it.
 
 ## Hosts
 
-| Host | Execution route |
-|---|---|
-| Windows Codex | Windows Python 3.13 and Windows ADB |
-| WSL Codex CLI | Default: explicit Windows Python/ADB delegation; output paths translated |
-| Native Linux | Explicit native route: Linux Python 3.10+, Linux dependencies, Linux ADB |
+| Host | Execution route | Validation |
+|---|---|---|
+| Windows Codex | Windows Python 3.13 and Windows ADB | Historical phone acceptance plus current runtime checks |
+| WSL Codex CLI, default | Explicit Windows Python/ADB delegation; output paths translated | Runtime checks, including execution from the WSL filesystem |
+| WSL Codex CLI, `--runtime native` | Linux Python 3.10+, Linux dependencies and Linux ADB | Runtime checks in WSL; no Linux phone workflow acceptance |
+| Standalone Linux | Native Linux execution; no Windows required | Native route checked in WSL; standalone Linux phone workflow untested |
 
 Routes have separate isolated dependency directories and never silently substitute one host for another. Windows phone acceptance is historical. Native Linux runtime validation is separate from a live phone workflow test.
 
+**WSL and Linux can use this skill; it is not Windows-only.** The WSL default reuses the Windows execution route. Explicit native mode uses Linux tools instead. For native mode, Linux ADB must reach the phone through USB or an authorized wireless connection; WSL USB access requires the device to be made available to WSL. A successful `doctor` check without a connected device verifies the runtime only.
+
 ## Install globally
 
-Clone or extract this repository, then install the skill:
+Clone this repository, then install the skill:
 
 ```bash
+git clone https://github.com/sesonli/android-phone-use-skill.git
+cd android-phone-use-skill
 python3 install.py
 ```
+
+You can also download and extract the source, then run `install.py` from that directory.
 
 The default destination is the current user's `.agents/skills/android-phone-use`, a [documented global Codex skill location](https://learn.chatgpt.com/docs/build-skills). Windows users can run `py -3.13 install.py`. `--destination` accepts a custom skill directory, including a desktop host's configured skills folder. Existing skills are preserved.
 
