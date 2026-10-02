@@ -24,7 +24,7 @@ This is an **Android phone skill**. Computer operating-system support and phone 
 
 | Phone software | Scope of this release |
 |---|---|
-| Android, including Android-based manufacturer systems | Target platform. The phone must authorize ADB and allow the Android UiAutomator service to run. Each device and app still needs validation. |
+| Android, including Android-based manufacturer systems | Intended platform, not a blanket compatibility claim. Other models are untested; ADB authorization and a working Android UiAutomator service are prerequisites. |
 | Huawei software that retains Android compatibility | Conditional and untested. Use only if ADB and Android UiAutomator actually work on that build; the ability to install APKs alone is insufficient. |
 | HarmonyOS NEXT / native HarmonyOS | Unsupported. This package has no HarmonyOS HDC or native UI automation backend. |
 | iPhone / iOS | Unsupported. This package has no iOS automation backend. |
@@ -40,11 +40,11 @@ Enable debugging, authorize the selected host, and confirm the phone appears as 
 | Windows Codex | Windows Python 3.13 and Windows ADB | Historical phone acceptance plus current runtime checks |
 | WSL Codex CLI, default | Explicit Windows Python/ADB delegation; output paths translated | Runtime checks, including execution from the WSL filesystem |
 | WSL Codex CLI, `--runtime native` | Linux Python 3.10+, Linux dependencies and Linux ADB | Runtime checks in WSL; no Linux phone workflow acceptance |
-| Standalone Linux | Native Linux execution; no Windows required | Native route checked in WSL; standalone Linux phone workflow untested |
+| Standalone Linux | Implemented native Linux execution; no Windows required | Previously checked only in WSL. See clean-install CI for independent OS checks; Linux phone workflows remain untested. |
 
 Routes have separate isolated dependency directories and never silently substitute one host for another. Windows phone acceptance is historical. Native Linux runtime validation is separate from a live phone workflow test.
 
-**WSL and Linux can use this skill; it is not Windows-only.** The WSL default reuses the Windows execution route. Explicit native mode uses Linux tools instead. For native mode, Linux ADB must reach the phone through USB or an authorized wireless connection; WSL USB access requires the device to be made available to WSL. A successful `doctor` check without a connected device verifies the runtime only.
+**The package implements Windows, WSL and Linux routes; implemented does not mean phone-tested.** The WSL default reuses the Windows execution route. Explicit native mode uses Linux tools instead. For native mode, Linux ADB must reach the phone through USB or an authorized wireless connection; WSL USB access requires the device to be made available to WSL. A successful `doctor` check without a connected device verifies the runtime only.
 
 ## Install globally
 
@@ -91,6 +91,8 @@ Version 2.0.0 retains the v2 scanning functions. The general default remains con
 Package code and instructions use MIT. uiautomator2, adbutils, and other dependencies retain their upstream licenses. No language model is downloaded or invoked by this package.
 
 ## Release checks
+
+See [testing and evidence boundaries](TESTING.md) for the clean-install test, prerequisites, and the deferred WeChat test plan. [Clean-install CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) runs on fresh GitHub-hosted Windows and Linux runners. A green run demonstrates the listed installation checks, not phone or app compatibility.
 
 ```bash
 python3 -m unittest discover -s tests -v

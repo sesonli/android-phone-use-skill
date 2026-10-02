@@ -24,7 +24,7 @@
 
 | 手机系统 | 本版本的适用范围 |
 |---|---|
-| Android，以及基于 Android 的厂商系统 | 目标平台。手机必须授权 ADB，并允许 Android UiAutomator 服务运行；每台设备和具体应用仍需验证。 |
+| Android，以及基于 Android 的厂商系统 | 设计面向的平台，不代表所有机型兼容。其他机型未测试；ADB 授权和可运行的 Android UiAutomator 服务是必要条件。 |
 | 保留 Android 兼容能力的华为系统 | 有条件尝试，未验证。必须确认该系统上的 ADB 和 Android UiAutomator 实际可用，仅能安装 APK 不足以判断兼容。 |
 | HarmonyOS NEXT / 原生鸿蒙 | 不支持。本项目没有鸿蒙 HDC 或原生 UI 自动化后端。 |
 | iPhone / iOS | 不支持。本项目没有 iOS 自动化后端。 |
@@ -40,13 +40,13 @@
 | Windows Codex | Windows Python 3.13 和 Windows ADB | 此前真机采集验证，以及当前运行检查 |
 | WSL Codex CLI，默认路线 | 明确转调 Windows Python 与 Windows ADB，并转换输出路径 | 运行检查通过，包括从 WSL 文件系统执行 |
 | WSL Codex CLI，`--runtime native` | Linux Python 3.10 及以上、Linux 依赖和 Linux ADB | 在 WSL 中通过运行检查，未做 Linux 真机流程验证 |
-| 独立 Linux 系统 | 使用 Linux 原生路线，不需要 Windows | 原生路线在 WSL 中检查过，独立 Linux 真机流程未验证 |
+| 独立 Linux 系统 | 已实现 Linux 原生路线，不需要 Windows | 此前仅在 WSL 中检查过；独立操作系统检查见干净安装 CI，Linux 真机流程仍未测试 |
 
 每条路线使用独立的依赖目录。指定路线失败时，工具会报错，不会自动换用另一台主机的运行环境。原生 Linux 不需要 Windows，可通过 `--runtime native` 明确选择。
 
 此前的真机采集测试在 Windows 上完成。Linux 原生入口已在 WSL 的 Linux 运行时通过检查，尚未验证 Linux 真机完整流程与性能。
 
-**WSL 和 Linux 都有可用入口，本项目并非只能在 Windows 上运行。** WSL 默认复用 Windows 执行路线；明确选择原生模式后，使用 Linux 工具。原生模式要求 Linux ADB 能通过 USB 或已授权的无线连接访问手机。在 WSL 中走 USB 原生路线时，还需要让 USB 设备可由 WSL 访问。没有连接手机时，`doctor` 成功只表示运行环境可用。
+**项目已实现 Windows、WSL 和 Linux 入口，但实现了入口不等于真机测试通过。** WSL 默认复用 Windows 执行路线；明确选择原生模式后，使用 Linux 工具。原生模式要求 Linux ADB 能通过 USB 或已授权的无线连接访问手机。在 WSL 中走 USB 原生路线时，还需要让 USB 设备可由 WSL 访问。没有连接手机时，`doctor` 成功只表示运行环境可用。
 
 ## 全局安装
 
@@ -106,6 +106,8 @@ python3 scripts/run.py toolkit --serial DEVICE_SERIAL snapshot --output evidence
 本项目的代码与说明采用 [MIT 许可](LICENSE)。uiautomator2、adbutils 等依赖保留各自的上游许可。工具不会下载或调用语言模型。
 
 ## 发布检查
+
+[测试方法与证据范围](TESTING.md) 说明了干净安装测试、环境前提和暂不执行的微信测试计划。[干净安装 CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) 在 GitHub 提供的 Windows 和 Linux 新运行器上执行。绿色结果只代表列出的安装检查通过，不代表真机或应用兼容性通过。
 
 在仓库目录运行：
 
