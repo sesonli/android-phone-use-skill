@@ -40,7 +40,7 @@ Enable debugging, authorize the selected host, and confirm the phone appears as 
 | Windows Codex | Windows Python 3.13 and Windows ADB | Historical phone acceptance plus current runtime checks |
 | WSL Codex CLI, default | Explicit Windows Python/ADB delegation; output paths translated | Runtime checks, including execution from the WSL filesystem |
 | WSL Codex CLI, `--runtime native` | Linux Python 3.10+, Linux dependencies and Linux ADB | Runtime checks in WSL; no Linux phone workflow acceptance |
-| Standalone Linux | Implemented native Linux execution; no Windows required | Previously checked only in WSL. See clean-install CI for independent OS checks; Linux phone workflows remain untested. |
+| Standalone Linux | Implemented native Linux execution; no Windows required | Clean installation checked on independent GitHub Ubuntu runners with Python 3.10 and 3.13. Linux phone workflows remain untested. |
 
 Routes have separate isolated dependency directories and never silently substitute one host for another. Windows phone acceptance is historical. Native Linux runtime validation is separate from a live phone workflow test.
 
@@ -93,6 +93,8 @@ Package code and instructions use MIT. uiautomator2, adbutils, and other depende
 ## Release checks
 
 See [testing and evidence boundaries](TESTING.md) for the clean-install test, prerequisites, and the deferred WeChat test plan. [Clean-install CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) runs on fresh GitHub-hosted Windows and Linux runners. A green run demonstrates the listed installation checks, not phone or app compatibility.
+
+[The first independent run](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) passed all three jobs: Ubuntu/Python 3.10, Ubuntu/Python 3.13, and Windows/Python 3.13. It tested commit `ad3c8cf`; the installed scanner remains the frozen v2.0.0 release.
 
 ```bash
 python3 -m unittest discover -s tests -v

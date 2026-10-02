@@ -20,6 +20,8 @@ No preinstalled Codex, Android SDK, personal ADB key, local vendor cache, or par
 
 ## Current phone evidence
 
+Independent clean-install evidence: [run 37054394789](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789), commit `ad3c8cf778b4b803d14ec4d5942c98522337e70c`, completed successfully on 2026-10-02. All nine installation checks passed in each of the three hosted jobs: Ubuntu/Python 3.10, Ubuntu/Python 3.13, and Windows/Python 3.13. The full logs were inspected, including automatic selection of bundled ADB. These are installation results only.
+
 The historical acceptance is the OnePlus 8T / Android 13 / Windows / wireless ADB Settings-list workload described in [provenance](skills/android-phone-use/references/provenance.md). Runtime checks and this historical phone test are separate evidence. Follow the [CI run history](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) for each independent installation result and its exact commit. An unrun, failed, or cancelled job is not a pass.
 
 ## Deferred WeChat scenario / 微信测试计划，暂不执行

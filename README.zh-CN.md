@@ -40,7 +40,7 @@
 | Windows Codex | Windows Python 3.13 和 Windows ADB | 此前真机采集验证，以及当前运行检查 |
 | WSL Codex CLI，默认路线 | 明确转调 Windows Python 与 Windows ADB，并转换输出路径 | 运行检查通过，包括从 WSL 文件系统执行 |
 | WSL Codex CLI，`--runtime native` | Linux Python 3.10 及以上、Linux 依赖和 Linux ADB | 在 WSL 中通过运行检查，未做 Linux 真机流程验证 |
-| 独立 Linux 系统 | 已实现 Linux 原生路线，不需要 Windows | 此前仅在 WSL 中检查过；独立操作系统检查见干净安装 CI，Linux 真机流程仍未测试 |
+| 独立 Linux 系统 | 已实现 Linux 原生路线，不需要 Windows | 已在独立 GitHub Ubuntu 运行器上检查干净安装，使用 Python 3.10 和 3.13；Linux 真机流程仍未测试 |
 
 每条路线使用独立的依赖目录。指定路线失败时，工具会报错，不会自动换用另一台主机的运行环境。原生 Linux 不需要 Windows，可通过 `--runtime native` 明确选择。
 
@@ -108,6 +108,8 @@ python3 scripts/run.py toolkit --serial DEVICE_SERIAL snapshot --output evidence
 ## 发布检查
 
 [测试方法与证据范围](TESTING.md) 说明了干净安装测试、环境前提和暂不执行的微信测试计划。[干净安装 CI](https://github.com/sesonli/android-phone-use-skill/actions/workflows/clean-install.yml) 在 GitHub 提供的 Windows 和 Linux 新运行器上执行。绿色结果只代表列出的安装检查通过，不代表真机或应用兼容性通过。
+
+[首轮独立环境检查](https://github.com/sesonli/android-phone-use-skill/actions/runs/37054394789) 的三组任务已全部通过：Ubuntu/Python 3.10、Ubuntu/Python 3.13、Windows/Python 3.13。检查对应提交 `ad3c8cf`，安装的采集器仍为冻结的 v2.0.0 版本。
 
 在仓库目录运行：
 
