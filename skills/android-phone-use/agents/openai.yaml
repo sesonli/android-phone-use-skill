@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Phone Use"
+  short_description: "Capture Android UI with the frozen v2 toolkit"
+  default_prompt: "Use $android-phone-use to control an authorized Android phone and capture its current UI with the frozen v2 toolkit."

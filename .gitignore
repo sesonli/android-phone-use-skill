@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+**/.runtime/
+.private/
+dist/
+evidence/
+*.log
+.env
+adbkey*
+adb_known_hosts.pb
